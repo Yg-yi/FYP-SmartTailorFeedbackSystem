@@ -41,12 +41,16 @@ SmartTailor-Feedback-System/
 ```bash
 git clone https://github.com/Yg-yi/FYP-SmartTailorFeedbackSystem.git
 
-2. **Import Database:**
+2. **Navigate to the project directory:**
+```bash
+cd FYP-SmartTailorFeedbackSystem
+
+3. **Import Database:**
 •Set up a local server environment (e.g., XAMPP / WampServer).
 •Import the provided SQL schema from the database/ folder into your local MySQL management tool (e.g., phpMyAdmin).
 
-3. **Configure Connection:**
+4. **Configure Connection:**
 •Update your database credentials in the backend connection configuration file.
 
-4. **Run on Local Server:**
+5. **Run on Local Server:**
 •Move the project folder to your local server root (e.g., htdocs for XAMPP) and launch it via your browser.
