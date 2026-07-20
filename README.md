@@ -49,7 +49,7 @@ cd FYP-SmartTailorFeedbackSystem
 ```
 
 3. **Import Database:**
-    •Set up a local server environment (e.g., XAMPP / WampServer).
+•Set up a local server environment (e.g., XAMPP / WampServer).
 
     •Import the provided SQL schema from the database/ folder into your local MySQL management tool (e.g., phpMyAdmin).
 
