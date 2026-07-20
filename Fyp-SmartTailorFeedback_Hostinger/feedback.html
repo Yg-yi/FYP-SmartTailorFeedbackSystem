@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartTailor Feedback</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        .notif-dropdown { display: none; position: absolute; right: 0; top: 60px; width: 320px; background: white; border: 1px solid #eee; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; overflow: hidden; }
+        .notif-dropdown.active { display: block; animation: fadeIn 0.2s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Smooth scrolling behavior */
+        html { scroll-behavior: smooth; }
+
+        /* Sleek custom scrollbar for the dark System Event Logs container */
+        #systemLogsContainer::-webkit-scrollbar { width: 6px; }
+        #systemLogsContainer::-webkit-scrollbar-track { background: #161616; }
+        #systemLogsContainer::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 99px; }
+        #systemLogsContainer::-webkit-scrollbar-thumb:hover { background: #cda434; }   
+
+    </style>
+
+</head>
+<body class="antialiased bg-[#faf9f6]">
+
+    <div id="landingScreen" class="flex flex-col w-full min-h-screen font-sans">
+        <nav class="sticky top-0 bg-white/90 backdrop-blur-md z-50 border-b border-gray-100 p-6 md:px-12 flex justify-between items-center transition-all shadow-sm">
+            <div class="text-3xl font-serif font-bold tracking-tight text-[#111] cursor-pointer" onclick="window.scrollTo(0,0)">SmartTailor.</div>
+            <div class="hidden md:flex gap-8 items-center font-medium text-sm text-gray-500 tracking-wide uppercase">
+                <a href="#about" class="hover:text-[#cda434] transition-colors">About Us</a>
+                <a href="#benefits" class="hover:text-[#cda434] transition-colors">Benefits</a>
+                <a href="#how" class="hover:text-[#cda434] transition-colors">How it Works</a>
+            </div>
+            <button type="button" onclick="showScreen('authScreen'); toggleAuth('login');" class="btn-dark px-6 py-2.5 rounded-full text-sm font-bold uppercase tracking-widest shadow-lg flex items-center justify-center">Sign In</button>
+        </nav>
+
+        <section class="flex flex-col lg:flex-row min-h-[90vh]">
+            <div class="w-full lg:w-1/2 flex flex-col justify-center p-8 md:p-20 relative z-10 bg-[#faf9f6]">
+                <h1 class="text-6xl md:text-8xl font-serif font-bold leading-[1.05] mb-8 text-[#111]">
+                    The art of <br/>
+                    <span class="italic text-gray-400 font-light relative">
+                        perfect fit.
+                        <span class="absolute bottom-2 left-0 w-full h-2 bg-[#cda434]/20 -z-10"></span>
+                    </span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-500 mb-10 leading-relaxed max-w-lg">
+                    Experience premium bespoke tailoring. Review your completed commissions and shape the community by rating your master craftsmen.
+                </p>
+                <div class="flex gap-4">
+                    <button type="button" onclick="showScreen('authScreen'); toggleAuth('login');" class="bg-[#111] text-white hover:bg-black px-10 py-5 rounded-lg font-bold tracking-widest uppercase text-sm shadow-xl transition-all hover:scale-105 flex items-center justify-center">Rate Your Tailor</button>
+                    <a href="#benefits" class="btn-outline px-8 py-5 rounded-lg font-bold tracking-widest uppercase text-sm hidden md:flex items-center justify-center text-center">Learn More</a>
+                </div>
+            </div>
+            <div class="w-full lg:w-1/2 relative min-h-[50vh] lg:min-h-full bg-[#111]">
+                <img src="https://images.pexels.com/photos/461035/pexels-photo-461035.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" class="absolute inset-0 w-full h-full object-cover opacity-60 shadow-2xl" alt="Tailor Workshop" />
+            </div>
+        </section>
+
+        <section id="about" class="py-24 px-8 md:px-20 bg-white text-center border-b border-gray-100">
+            <div class="max-w-3xl mx-auto">
+                <span class="text-[#cda434] font-bold tracking-widest uppercase text-sm mb-4 block">Our Philosophy</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold mb-8 text-[#111] leading-tight">Elevating the tradition of bespoke craftsmanship.</h2>
+                <p class="text-gray-500 leading-relaxed text-lg mb-8">
+                    SmartTailor is not just a directory; it is an intelligent matchmaking atelier. We recognize that true tailoring is an intimate collaboration between client and craftsman. Through our Feedback Engine, your voice ensures the highest standards are always maintained.
+                </p>
+            </div>
+        </section>
+
+        <section id="benefits" class="py-24 px-8 md:px-20 bg-[#faf9f6]">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <span class="text-[#cda434] font-bold tracking-widest uppercase text-sm mb-4 block">The Advantage</span>
+                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-[#111]">What Makes Us Special</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div class="hover-card bg-white p-10 rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-24 h-24 text-[#cda434]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        </div>
+                        <div class="flex items-center justify-start mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-[#cda434]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-serif font-bold mb-4 text-[#111]">Weighted Matching</h3>
+                        <p class="text-gray-500 leading-relaxed text-sm">Your feedback directly feeds into our proprietary WMS algorithm, ensuring tailors are accurately ranked based on real client satisfaction.</p>
+                    </div>
+                    <div class="hover-card bg-white p-10 rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-24 h-24 text-[#111]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <div class="flex items-center justify-start mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-[#111]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-serif font-bold mb-4 text-[#111]">Privacy First</h3>
+                        <p class="text-gray-500 leading-relaxed text-sm">Your reviews are secured and validated. Our AI moderation ensures a safe, constructive environment free from toxic language.</p>
+                    </div>
+                    <div class="hover-card bg-white p-10 rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-24 h-24 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                        </div>
+                        <div class="flex items-center justify-start mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-serif font-bold mb-4 text-[#111]">Visual Portfolios</h3>
+                        <p class="text-gray-500 leading-relaxed text-sm">Craftsmen curate immersive digital galleries of their past work. Your feedback helps them showcase their best bespoke pieces.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how" class="py-24 px-8 md:px-20 bg-[#111] text-white">
+            <div class="max-w-5xl mx-auto text-center">
+                <span class="text-[#cda434] font-bold tracking-widest uppercase text-sm mb-4 block">The Process</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold mb-16">How SmartTailor Works</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+                    <div class="hidden md:block absolute top-12 left-1/6 right-1/6 h-0.5 bg-gray-800 -z-10"></div>
+                    
+                    <div class="flex flex-col items-center">
+                        <div class="w-24 h-24 rounded-full bg-[#1a1a1a] border-4 border-[#cda434] flex items-center justify-center text-2xl font-bold mb-6 shadow-[0_0_20px_rgba(205,164,52,0.3)]">1</div>
+                        <h3 class="text-xl font-bold mb-3">Complete Commission</h3>
+                        <p class="text-gray-400 text-sm">Once your tailor finishes your bespoke garment, the system marks the job as officially complete.</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-24 h-24 rounded-full bg-[#1a1a1a] border-4 border-gray-700 flex items-center justify-center text-2xl font-bold mb-6">2</div>
+                        <h3 class="text-xl font-bold mb-3">Submit Feedback</h3>
+                        <p class="text-gray-400 text-sm">Log in to this portal, select a star rating, and share details about your fitting and craftsmanship.</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-24 h-24 rounded-full bg-[#1a1a1a] border-4 border-gray-700 flex items-center justify-center text-2xl font-bold mb-6">3</div>
+                        <h3 class="text-xl font-bold mb-3">Live Integration</h3>
+                        <p class="text-gray-400 text-sm">Your approved review instantly syncs to the tailor's profile on the main matching system!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-white border-t border-gray-100 py-10 text-center mt-auto">
+            <div class="text-2xl font-serif font-bold mb-2 text-[#111]">SmartTailor.</div>
+            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">© 2026 Premium Bespoke Feedback System</p>
+        </footer>
+    </div>
+
+    <div id="authScreen" class="hidden min-h-screen bg-[#faf9f6]">
+        <div class="flex min-h-screen">
+            
+            <div class="hidden lg:block w-1/2 relative bg-[#111]">
+                <img src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" class="absolute inset-0 w-full h-full object-cover opacity-50" alt="Elegant Suits" />
+                <div class="absolute inset-0 flex flex-col justify-end p-16 bg-gradient-to-t from-[#111] via-transparent to-transparent">
+                    <h2 class="text-white text-4xl font-serif font-bold mb-4">"Style is a way to say who you are without having to speak."</h2>
+                    <p class="text-gray-400 font-medium uppercase tracking-widest text-sm">— Rachel Zoe</p>
+                </div>
+            </div>
+            
+            <div class="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 md:p-16 relative bg-[#faf9f6]">
+                <button type="button" onclick="showScreen('landingScreen')" class="absolute top-8 right-8 text-sm font-bold uppercase tracking-widest text-gray-400 hover:text-[#111] transition-colors flex items-center gap-2">
+                    Back to Home
+                </button>
+                
+                <div class="w-full max-w-md">
+                    <div id="loginSection">
+                        <div class="text-center mb-10">
+                            <h2 class="text-4xl font-serif font-bold mb-3 text-[#111]">Welcome Back</h2>
+                            <p class="text-sm text-gray-500 font-medium">Sign in to access your bespoke dashboard.</p>
+                        </div>
+
+                        <form id="loginForm" class="space-y-6" autocomplete="off">
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest font-bold text-gray-500 mb-2">Email Address</label>
+                                <input type="email" id="lEmail" class="input-field shadow-sm" placeholder="you@email.com" autocomplete="off" required>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest font-bold text-gray-500 mb-2">Password</label>
+                                <div class="relative">
+                                    <input type="password" id="lPass" class="input-field shadow-sm pr-10" placeholder="••••••••" autocomplete="new-password" required>
+                                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors" onclick="togglePasswordVisibility('lPass', this)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="w-full bg-[#111] text-white py-4 rounded-xl font-bold tracking-widest uppercase text-sm mt-4 shadow-[0_10px_20px_rgba(0,0,0,0.2)] hover:bg-black transition-all hover:-translate-y-1">Secure Sign In</button>
+
+                            <div class="text-center pt-4">
+                                <button type="button" onclick="toggleAuth('register')" class="text-sm font-bold text-gray-400 hover:text-[#cda434] transition-colors underline decoration-2 underline-offset-4">New to SmartTailor? Register here</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="registerSection" style="display:none;">
+                        <div class="text-center mb-10">
+                            <h2 class="text-4xl font-serif font-bold mb-3 text-[#111]">Join the Atelier</h2>
+                            <p class="text-sm text-gray-500 font-medium">Create your exclusive account.</p>
+                        </div>
+
+                        <form id="registerForm" class="space-y-4" autocomplete="off">
+                            
+                            <div class="flex gap-4 mb-2">
+                                <label class="flex-1 cursor-pointer">
+                                    <input type="radio" name="role" value="Customer" class="peer sr-only" checked>
+                                    <div class="py-3.5 text-center border border-gray-200 rounded-xl text-xs font-bold text-gray-400 peer-checked:border-[#111] peer-checked:text-[#111] peer-checked:shadow-sm uppercase tracking-widest transition-all bg-white">Customer</div>
+                                </label>
+                                <label class="flex-1 cursor-pointer">
+                                    <input type="radio" name="role" value="Tailor" class="peer sr-only">
+                                    <div class="py-3.5 text-center border border-gray-200 rounded-xl text-xs font-bold text-gray-400 peer-checked:border-[#111] peer-checked:text-[#111] peer-checked:shadow-sm uppercase tracking-widest transition-all bg-white">Tailor</div>
+                                </label>
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest font-bold text-gray-500 mb-2">Username</label>
+                                <input type="text" id="rName" class="input-field shadow-sm" placeholder="John Doe" autocomplete="off" required>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest font-bold text-gray-500 mb-2">Email Address</label>
+                                <input type="email" id="rEmail" class="input-field shadow-sm" placeholder="you@email.com" autocomplete="off" required>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[10px] uppercase tracking-widest font-bold text-gray-500 mb-2">Password</label>
+                                    <div class="relative">
+                                        <input type="password" id="rPass" class="input-field shadow-sm pr-10" placeholder="••••••••" autocomplete="new-password" required>
+                                        <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors" onclick="togglePasswordVisibility('rPass', this)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] uppercase tracking-widest font-bold text-gray-500 mb-2">Confirm Password</label>
+                                    <div class="relative">
+                                        <input type="password" id="rConfirmPass" class="input-field shadow-sm pr-10" placeholder="••••••••" autocomplete="new-password" required>
+                                        <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors" onclick="togglePasswordVisibility('rConfirmPass', this)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-[#111] text-white py-4 rounded-xl font-bold tracking-widest uppercase text-sm mt-6 shadow-[0_10px_20px_rgba(0,0,0,0.2)] hover:bg-black transition-all hover:-translate-y-1">Create Account</button>
+
+                            <div class="text-center pt-4">
+                                <button type="button" onclick="toggleAuth('login')" class="text-sm font-bold text-gray-400 hover:text-[#cda434] transition-colors underline decoration-2 underline-offset-4">Already a member? Sign In</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav id="dashboardNav" class="hidden sticky top-0 bg-white/90 backdrop-blur-md z-50 border-b border-gray-100 p-5 md:px-12 flex justify-between items-center transition-all shadow-sm">
+        
+        <div class="text-3xl font-serif font-bold tracking-tight text-[#111] cursor-pointer" onclick="setupUI()">SmartTailor.</div>
+        
+        <div class="flex items-center gap-6">
+            
+            <!--
+            <div id="adminNavBtn" class="hidden">
+                 <button onclick="showScreen('adminScreen')" class="text-[10px] font-black text-[#cda434] bg-[#cda434]/10 px-4 py-2 rounded-lg border border-[#cda434]/20 uppercase tracking-widest hover:bg-[#cda434] hover:text-white transition-all">Moderation Dashboard</button>
+            </div>
+            -->
+
+            <div class="relative hidden" id="notifBellContainer">
+                <button onclick="toggleNotifications()" class="relative p-2 bg-white border border-gray-100 rounded-full shadow-sm hover:bg-gray-50 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    <span id="notifBadge" class="hidden absolute top-0 right-0 bg-red-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full border-2 border-white translate-x-1 -translate-y-1">0</span>
+                </button>
+                <div id="notifDropdown" class="notif-dropdown">
+                    <div class="p-4 border-b font-bold text-sm bg-gray-50/50">Notifications</div>
+                    <div id="notifList" class="max-h-[300px] overflow-y-auto"></div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-[#111] text-[#cda434] flex items-center justify-center font-serif font-bold" id="navAvatar"></div>
+                <div class="hidden md:block text-left">
+                    <div id="welcomeMsg" class="text-sm font-bold text-[#111] leading-tight"></div>
+                    <div id="roleMsg" class="text-[9px] text-[#cda434] font-bold uppercase tracking-widest mt-0.5"></div>
+                </div>
+            </div>
+
+            <button class="text-[10px] font-bold text-red-600 hover:text-white hover:bg-red-600 border border-red-600 px-4 py-2 rounded-lg transition-colors uppercase tracking-widest" onclick="logout()">Sign Out</button>
+        </div>
+    </nav>
+
+    <div id="customerScreen" class="hidden container mx-auto px-4 md:px-12 mt-12">
+        <div id="notificationArea"></div>
+
+        <div class="mb-8">
+            <h1 class="text-4xl md:text-5xl font-serif font-bold text-[#111] tracking-tight mb-2">My Completed Jobs</h1>
+            <p class="text-gray-500 text-sm">Review your finished commissions and rate your master tailor.</p>
+        </div>
+        
+        <div class="flex gap-8 border-b border-gray-200 mb-8 overflow-x-auto scrollbar-hide">
+            <button id="tabPending" class="pb-4 font-bold text-sm tracking-widest uppercase transition-colors border-b-2 border-[#111] text-[#111] whitespace-nowrap" onclick="setCustomerTab('pending')">
+                Needs Review <span id="countPending" class="text-gray-400 font-normal ml-1">(0)</span>
+            </button>
+            <button id="tabHistory" class="pb-4 font-bold text-sm tracking-widest uppercase transition-colors border-b-2 border-transparent text-gray-400 hover:text-[#111] whitespace-nowrap" onclick="setCustomerTab('history')">
+                Completed History <span id="countHistory" class="font-normal ml-1">(0)</span>
+            </button>
+        </div>
+
+        <div id="customerFilterContainer" class="hidden mb-6 flex justify-end">
+            <select id="customerTailorFilter" onchange="applyCustomerTailorFilter()" class="text-xs font-bold text-gray-500 uppercase tracking-widest border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#111] cursor-pointer shadow-sm">
+                <option value="all">All Tailors</option>
+            </select>
+        </div>
+
+        <div id="jobList" class="flex flex-col"></div>
+    </div>
+
+    <div id="feedbackModal" class="hidden container mx-auto px-4 mt-12 max-w-2xl">
+        <div class="premium-card p-8 md:p-12 shadow-2xl relative border-[#cda434]/20 border-2">
+            
+            <div class="flex justify-between items-center mb-8 border-b border-gray-100 pb-6">
+                <h3 id="feedbackHeaderTitle" class="text-3xl md:text-4xl font-serif font-bold tracking-tight text-[#111]">RATE TAILOR</h3>
+                <button type="button" onclick="closeFeedbackModal()" class="text-gray-400 hover:text-black transition-colors bg-gray-50 hover:bg-gray-100 p-3 rounded-full flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>  
+            
+            <form id="feedbackForm" class="space-y-8" autocomplete="off">
+                <input type="hidden" id="fJobId"><input type="hidden" id="fTailorId">
+                
+                <div>
+                    <label class="block text-sm font-bold text-[#111] mb-3">Rate your experience:</label>
+                    <select id="fRating" class="input-field font-serif font-bold text-xl py-4" required>
+                        <option value="" disabled selected>Select a rating...</option>
+                        <option value="5">⭐⭐⭐⭐⭐ Outstanding</option>
+                        <option value="4">⭐⭐⭐⭐ Great</option>
+                        <option value="3">⭐⭐⭐ Good</option>
+                        <option value="2">⭐⭐ Fair</option>
+                        <option value="1">⭐ Poor</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-[#111] mb-3">Your Review</label>
+                    <textarea id="fComment" class="input-field bg-gray-50 text-sm leading-relaxed" rows="4" placeholder="Share details about the fit, timing, and craftsmanship..." oninput="autoResize(this)" style="overflow:hidden; resize:none;"></textarea>
+                </div>
+
+                <div class="mt-4">
+                    <label class="block text-sm font-bold text-[#111] mb-3">Upload Photos of the Finished Garment (Max 3)</label>
+                    
+                    <input type="file" id="reviewPhotos" multiple accept="image/*" onchange="previewPhotos()" class="w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-xs file:font-bold file:uppercase file:tracking-widest file:bg-[#111] file:text-[#cda434] hover:file:bg-black transition-colors cursor-pointer bg-gray-50 rounded-xl border border-gray-100">
+                    
+                    <div id="photoPreviewContainer" class="flex flex-wrap gap-3 mt-4 hidden p-4 bg-[#faf9f6] border border-gray-100 rounded-xl shadow-inner"></div>
+                </div>   
+
+                <div class="flex flex-col md:flex-row gap-4 pt-4 border-t border-gray-100">
+                    <button type="button" class="btn-outline w-full md:w-1/2 py-3.5 rounded-xl text-sm font-bold uppercase tracking-widest" onclick="closeFeedbackModal()">Cancel</button>
+                    <button type="submit" class="bg-[#cda434] hover:bg-[#b58e2a] text-white w-full md:w-1/2 py-3.5 rounded-xl text-sm font-bold uppercase tracking-widest transition-all shadow-md">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="tailorScreen" class="hidden container mx-auto px-4 md:px-12 mt-12 relative pb-20">
+        <div class="flex justify-between items-end mb-10 border-b border-gray-100 pb-6">
+            <div>
+                <h1 id="profileTitle" class="text-4xl md:text-5xl font-serif font-bold text-[#111] tracking-tight mb-2">Tailor Profile</h1>
+                <p class="text-gray-500 text-sm">Client reviews and overall rating.</p>
+            </div>
+            <button id="backBtnTailor" class="btn-outline px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest hidden md:block" onclick="setupUI()">Go Back</button>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            <div class="md:col-span-1">
+                <div class="premium-card p-8 text-center sticky top-28 bg-[#111] text-white shadow-xl">
+                    <div class="text-gray-400 uppercase tracking-widest text-[10px] font-bold mb-4">Average Client Rating</div>
+                    <div class="text-6xl font-serif font-bold text-[#cda434] mb-2" id="tAvg">0.0</div>
+                    <div class="flex justify-center mb-4"><span class="text-2xl text-[#cda434]">★</span></div>
+                    <div class="text-sm text-gray-300 border-t border-gray-800 pt-4">Based on <span id="tCount" class="font-bold text-white">0</span> reviews</div>
+                    
+                    <div id="ratingBreakdown"></div>
+                </div>
+            </div>   
+            
+            <div class="md:col-span-2">
+                <div class="premium-card p-8 md:p-12 shadow-sm">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b border-gray-100 pb-4 gap-4">
+                        <div class="flex items-center gap-4">
+                            <h3 class="text-xl font-serif font-bold text-[#111]">Customer Feedback</h3>
+                        </div>
+                        
+                        <select id="reviewFilter" onchange="applyReviewFilter()" class="text-xs font-bold text-[#111] uppercase tracking-widest border border-[#cda434]/40 rounded-lg px-4 py-2.5 bg-[#faf9f6] focus:outline-none focus:ring-2 focus:ring-[#cda434] cursor-pointer shadow-sm hover:bg-[#cda434]/10 transition-colors">
+                            <option value="recent">Most Recent</option>
+                            <option value="highest">Highest Rating</option>
+                            <option value="lowest">Lowest Rating</option>
+                        </select> 
+                    </div>
+
+                    <div id="tReviews" class="space-y-6"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="hidden fixed bottom-8 right-8 bg-[#111] text-[#cda434] p-4 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:bg-[#cda434] hover:text-white transition-all duration-300 z-50 group border border-[#cda434]/20">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-y-1 transition-transform"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <div id="adminScreen" class="hidden container mx-auto px-4 md:px-12 mt-12">
+    <div class="mb-10 border-b border-gray-100 pb-6">
+        <h1 class="text-4xl md:text-5xl font-serif font-bold text-[#111] tracking-tight mb-2">Moderation Dashboard</h1>
+        <p class="text-gray-500 text-sm">Review feedback flagged by the AI for toxic or inappropriate language.</p>
+    </div>
+    
+    <div id="adminList" class="flex flex-col gap-6 max-w-4xl mx-auto"></div>   
+
+        <div class="mt-16 mb-20 bg-[#111] rounded-2xl border border-gray-800 shadow-xl overflow-hidden flex flex-col">
+            
+            <div class="p-6 md:p-8 border-b border-gray-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-[#161616]">
+    <div>
+        <h2 class="text-2xl md:text-3xl font-serif font-bold text-[#cda434] tracking-tight mb-2 flex items-center gap-3">
+            System Event Logs
+            <span class="relative flex h-2.5 w-2.5">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.8)]"></span>
+            </span>
+        </h2>
+        <p class="text-gray-400 text-sm">Audit trail for feedback submissions, approvals, and rejections.</p>
+    </div>   
+                
+                <select id="logFilter" onchange="renderSystemLogs()" class="text-xs font-bold text-gray-300 uppercase tracking-widest border border-gray-700 rounded-lg px-4 py-2.5 bg-[#111] focus:outline-none focus:border-[#cda434] focus:text-[#cda434] cursor-pointer shadow-sm hover:bg-[#1a1a1a] transition-colors">
+                    <option value="all">All Events</option>
+                    <option value="Submission">Submissions</option>
+                    <option value="Approval">Approvals</option>
+                    <option value="Rejection">Rejections</option>
+                </select>
+            </div>
+
+            <div id="systemLogsContainer" class="flex flex-col max-h-[380px] overflow-y-auto smooth-scroll">
+                 </div>
+            
+        </div>   
+            
+        </div> </div> <div id="imageModal" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-300 opacity-0">
+            <button onclick="closeImageModal()" class="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors p-2 bg-white/5 hover:bg-white/10 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            
+            <img id="imageModalContent" src="" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl scale-95 transition-transform duration-300">
+    </div>   
+
+    <script>   
+
+        let cachedNotifData = "";
+        let notifPoll = null;
+        let currentUser = null;
+        let activePoll = null; 
+
+        // Dashboard State
+        let globalCustomerJobs = [];
+        let activeCustomerTab = 'pending'; 
+        let activeTailorFilter = 'all';
+        let cachedCustomerData = "";
+        let cachedTailorData = "";
+        let cachedAdminData = "";
+        // System Logs Array (Saves to localStorage so it persists across refreshes!)
+        let systemLogs = JSON.parse(localStorage.getItem('systemFeedbackLogs')) || [
+            { action: 'Submission', details: 'Customer "Sarah" successfully submitted a 5-star review.', timestamp: new Date().getTime() - 86400000 },
+            { action: 'Approval', details: 'Admin approved Review #102 for Tailor "Mr. Ali".', timestamp: new Date().getTime() - 3600000 }
+        ];     
+        let currentTailorViewId = null;
+
+        // Array to hold tailor reviews for filtering
+        let currentTailorReviews = [];
+
+        // THE MAGIC LINK: Pointing to your new PHP Backend!
+        const API_URL = 'api/feedback_api.php?action=';
+
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24M1 1l22 22"/></svg>`;
+            } else {
+                input.type = 'password';
+                btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+            }
+        }
+
+        function formatRealTime(dbTimestamp) {
+            const d = new Date(dbTimestamp);
+            return d.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true });
+        }
+
+        function autoResize(textarea) {
+            textarea.style.height = 'auto'; 
+            textarea.style.height = textarea.scrollHeight + 'px'; 
+        }
+
+        // --- LIVE IMAGE PREVIEW LOGIC ---
+        function previewPhotos() {
+            const input = document.getElementById('reviewPhotos');
+            const container = document.getElementById('photoPreviewContainer');
+            
+            // Clear any old pictures first
+            container.innerHTML = ''; 
+            
+            if (input.files && input.files.length > 0) {
+                container.classList.remove('hidden');
+                
+                // Only show a maximum of 3 previews
+                const limit = Math.min(input.files.length, 3);
+                
+                for (let i = 0; i < limit; i++) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        // UPDATED: Added cursor-pointer and onclick to open the modal!
+                        img.className = 'w-20 h-20 md:w-24 md:h-24 object-cover rounded-xl border border-[#cda434]/30 shadow-sm transition-transform hover:scale-105 cursor-pointer';
+                        img.onclick = function() { openImageModal(this.src); };
+                        container.appendChild(img);
+                    }
+                    reader.readAsDataURL(input.files[i]);
+                }
+                
+                if (input.files.length > 3) {
+                    alert("You selected " + input.files.length + " photos. Only the first 3 will be saved.");
+                }
+            } else {
+                container.classList.add('hidden');
+            }
+        }   
+        
+        // --- NEW: CLOSE & CLEAR FEEDBACK MODAL ---
+        function closeFeedbackModal() {
+            // 1. Clear the form text and star rating
+            document.getElementById('feedbackForm').reset();
+            
+            // 2. Clear the actual file input memory
+            document.getElementById('reviewPhotos').value = '';
+            
+            // 3. Clear and hide the visual photo preview box
+            const container = document.getElementById('photoPreviewContainer');
+            container.innerHTML = '';
+            container.classList.add('hidden');
+            
+            // 4. Return to the dashboard safely
+            setupUI();
+        }   
+
+        function showScreen(screenId) {
+            if (activePoll) clearInterval(activePoll); 
+
+            const screens = ['landingScreen', 'authScreen', 'customerScreen', 'tailorScreen', 'adminScreen', 'feedbackModal'];
+            screens.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) { el.classList.add('hidden'); el.classList.remove('animate-fade-in'); }
+            });
+
+            const activeEl = document.getElementById(screenId);
+            if (activeEl) {
+                activeEl.classList.remove('hidden');
+                void activeEl.offsetWidth; 
+                activeEl.classList.add('animate-fade-in');
+            }
+
+            const isDashboard = ['customerScreen', 'tailorScreen', 'adminScreen', 'feedbackModal'].includes(screenId);
+            const nav = document.getElementById('dashboardNav');
+            if (isDashboard) {
+                nav.classList.remove('hidden');
+                nav.style.display = 'flex';
+            } else {
+                nav.classList.add('hidden');
+                nav.style.display = 'none';
+            }
+        }
+
+        function toggleAuth(type) {
+            document.getElementById('loginSection').style.display = type === 'login' ? 'block' : 'none';
+            document.getElementById('registerSection').style.display = type === 'register' ? 'block' : 'none';
+            
+            document.getElementById('loginForm').reset();
+            document.getElementById('registerForm').reset();
+            
+            document.getElementById('lEmail').value = '';
+            document.getElementById('lPass').value = '';
+            document.getElementById('rName').value = '';
+            document.getElementById('rEmail').value = '';
+            document.getElementById('rPass').value = '';
+            document.getElementById('rConfirmPass').value = '';
+        }
+
+        // --- AUTHENTICATION ---
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const pass = document.getElementById('rPass').value;
+            const confirmPass = document.getElementById('rConfirmPass').value;
+            if (pass !== confirmPass) return alert("Passwords do not match!");
+            
+            const role = document.querySelector('input[name="role"]:checked').value;
+            if (!role) return alert("Please select a role!");
+
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.innerText = "Creating...";
+
+            try {
+                const res = await fetch(API_URL + 'register', {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        name: document.getElementById('rName').value.trim(), 
+                        email: document.getElementById('rEmail').value.trim(),
+                        password: pass, 
+                        role: role
+                    })
+                });
+                const data = await res.json();
+                submitBtn.innerText = "Create Account";
+
+                if (data.error) alert(data.error);
+                else { 
+                    alert('Account Created! Please Sign In.'); 
+                    document.getElementById('registerForm').reset(); 
+                    toggleAuth('login'); 
+                }
+            } catch(e) { 
+                submitBtn.innerText = "Create Account";
+                alert("Database Error. Cannot reach the server."); 
+            }
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerText;
+            btn.innerText = "Checking Credentials..."; 
+            
+            try {
+                const res = await fetch(API_URL + 'login', {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ 
+                        email: document.getElementById('lEmail').value.trim(), 
+                        password: document.getElementById('lPass').value 
+                    })
+                });
+                
+                btn.innerText = originalText;
+                
+                if (res.status === 401) return alert('Invalid Email or Password. Please try again.');
+                
+                const rawText = await res.text();
+                const jsonStart = rawText.indexOf('{');
+                const jsonEnd = rawText.lastIndexOf('}');
+                
+                if(jsonStart !== -1 && jsonEnd !== -1) {
+                    currentUser = JSON.parse(rawText.substring(jsonStart, jsonEnd + 1));
+                    
+                    // NEW: Save the user to localStorage so refresh doesn't kill the session!
+                    sessionStorage.setItem('smartTailorUser', JSON.stringify(currentUser));
+                    
+                    setupUI();
+                } else {
+                    alert("Error: AwardSpace blocked the login response.");
+                }
+                
+            } catch(e) { 
+                btn.innerText = "Secure Sign In";
+                alert("The real error is: " + e.message); 
+            }
+        });
+
+        function logout() { 
+            if(confirm("Are you sure you want to sign out?")) {
+                currentUser = null; 
+                
+                // NEW: Clear the saved session memory
+                sessionStorage.removeItem('smartTailorUser');
+                
+                document.getElementById('loginForm').reset();
+                document.getElementById('registerForm').reset();
+                document.getElementById('feedbackForm').reset();
+                cachedCustomerData = "";
+                cachedTailorData = "";
+                currentTailorViewId = null;
+                showScreen('landingScreen'); 
+            }
+        }
+
+        function setupUI() {
+            if (!currentUser) return showScreen('landingScreen');
+
+            const userRole = currentUser.role.toLowerCase();
+            const isCustomer = userRole === 'customer';
+            let isAdmin = userRole.includes('admin');
+
+            // 🔒 SECURITY GATE: Check if the admin logging in is actually YOU
+            if (isAdmin) {
+                if (currentUser.email !== 'admin_feedback@gmail.com') {
+                    alert("Access Denied: You are not the Feedback Admin.");
+                    currentUser = null;
+                    sessionStorage.removeItem('smartTailorUser');
+                    showScreen('landingScreen');
+                    return; // Stop right here and kick them out
+                }
+            }
+
+            document.getElementById('welcomeMsg').innerText = currentUser.name;
+            document.getElementById('roleMsg').innerText = currentUser.role;
+            document.getElementById('navAvatar').innerText = currentUser.name.charAt(0).toUpperCase();
+
+            const adminBtn = document.getElementById('adminNavBtn');
+            if (adminBtn) adminBtn.classList.toggle('hidden', !isAdmin);
+            
+            const bellContainer = document.getElementById('notifBellContainer');
+            if (bellContainer) bellContainer.classList.toggle('hidden', !isCustomer);
+
+            if (isCustomer) { 
+                loadCustomer(); 
+                fetchNotifications();
+                activePoll = setInterval(fetchNotifications, 5000);
+            }
+            else if (isAdmin) { loadAdmin(); }
+            else if (userRole === 'tailor') { loadTailorView(currentUser.id, "My Profile"); }
+        }   
+
+
+        // --- CUSTOMER LOGIC ---
+        function setCustomerTab(tabName) {
+            activeCustomerTab = tabName;
+            renderCustomerJobs(); 
+        }
+
+        async function loadCustomer() {
+            showScreen('customerScreen');
+            await fetchCustomerData();
+            activePoll = setInterval(fetchCustomerData, 3000); 
+        }
+
+        async function fetchCustomerData() {
+            try {
+                const res = await fetch(API_URL + 'get_jobs&customerId=' + currentUser.id);
+                const rawText = await res.text();
+                const jsonStart = rawText.indexOf('[');
+                const jsonEnd = rawText.lastIndexOf(']');
+                
+                if(jsonStart !== -1 && jsonEnd !== -1) {
+                    const jobs = JSON.parse(rawText.substring(jsonStart, jsonEnd + 1));
+                    const currentHash = JSON.stringify(jobs);
+                    if (cachedCustomerData === currentHash) return; 
+                    cachedCustomerData = currentHash;
+                    globalCustomerJobs = jobs; 
+                    renderCustomerJobs();
+                }
+            } catch(e) { console.log("Waiting for database..."); }
+        }
+
+        // NEW: Filter Functions
+        function applyCustomerTailorFilter() {
+            activeTailorFilter = document.getElementById('customerTailorFilter').value;
+            renderCustomerJobs(); 
+        }
+
+        function populateTailorDropdown(historyJobs) {
+            const select = document.getElementById('customerTailorFilter');
+            // Get all unique tailor names from the history
+            const uniqueTailors = [...new Set(historyJobs.map(j => j.tailorName))].sort();
+
+            // Check if names have changed (prevents the dropdown from closing during 3-second auto-refresh)
+            const currentOptions = Array.from(select.options).map(opt => opt.value).filter(val => val !== 'all');
+            if (JSON.stringify(uniqueTailors) === JSON.stringify(currentOptions)) return;
+
+            const currentVal = select.value;
+            select.innerHTML = '<option value="all">All Tailors</option>';
+            
+            uniqueTailors.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.innerText = name;
+                select.appendChild(opt);
+            });
+
+            // Keep the selected value if it still exists
+            if (uniqueTailors.includes(currentVal)) {
+                select.value = currentVal;
+            } else {
+                select.value = 'all';
+                activeTailorFilter = 'all';
+            }
+        }
+
+        function renderCustomerJobs() {
+            const list = document.getElementById('jobList');
+            const pendingJobs = globalCustomerJobs.filter(j => Number(j.reviewCount) === 0);
+            const historyJobs = globalCustomerJobs.filter(j => Number(j.reviewCount) > 0);
+
+            populateTailorDropdown(historyJobs);
+
+            document.getElementById('tabPending').className = activeCustomerTab === 'pending' 
+                ? 'pb-4 font-bold text-sm tracking-widest uppercase transition-colors border-b-2 border-[#111] text-[#111] whitespace-nowrap' 
+                : 'pb-4 font-bold text-sm tracking-widest uppercase transition-colors border-b-2 border-transparent text-gray-400 hover:text-[#111] whitespace-nowrap';
+            
+            document.getElementById('tabHistory').className = activeCustomerTab === 'history' 
+                ? 'pb-4 font-bold text-sm tracking-widest uppercase transition-colors border-b-2 border-[#111] text-[#111] whitespace-nowrap' 
+                : 'pb-4 font-bold text-sm tracking-widest uppercase transition-colors border-b-2 border-transparent text-gray-400 hover:text-[#111] whitespace-nowrap';
+
+            document.getElementById('countPending').innerText = `(${pendingJobs.length})`;
+            document.getElementById('countHistory').innerText = `(${historyJobs.length})`;
+
+            const filterContainer = document.getElementById('customerFilterContainer');
+            if (activeCustomerTab === 'history' && historyJobs.length > 0) {
+                filterContainer.classList.remove('hidden');
+            } else {
+                filterContainer.classList.add('hidden');
+            }
+
+            let jobsToRender = activeCustomerTab === 'pending' ? pendingJobs : historyJobs;
+            if (activeCustomerTab === 'history' && activeTailorFilter !== 'all') {
+                jobsToRender = jobsToRender.filter(j => j.tailorName === activeTailorFilter);
+            }
+
+            let htmlBuffer = jobsToRender.length ? '' : `<div class="py-24 text-center border border-dashed border-gray-200 rounded-2xl bg-gray-50/50"><p class="text-gray-400 font-serif italic text-xl">No commissions found in this section.</p></div>`;
+            
+            jobsToRender.forEach(j => {
+                const isRated = j.reviewCount > 0;
+                const dateStr = j.created_at ? new Date(j.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recently';
+                const garmentType = j.garment_type ? j.garment_type.split(',')[0] : 'Bespoke Item';
+                const ratingStars = j.givenRating ? '★'.repeat(j.givenRating) + '☆'.repeat(5 - j.givenRating) : '';
+
+                // 🚩 NEW LOGIC: Create a beautiful red flag badge if the AI held the review
+                const isFlagged = j.reviewStatus === 'Held';
+                const flaggedBadge = isFlagged ? `
+                    <div class="absolute top-0 right-0 bg-red-50 text-red-600 font-bold border-b border-l border-red-100 rounded-bl-xl px-3 py-1.5 text-[9px] uppercase tracking-widest flex items-center gap-1.5 shadow-sm animate-pulse">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M4 2v20H2V2h2zm13 3H6v7h11l-2-3.5 2-3.5z"/></svg>
+                        Pending Approval
+                    </div>
+                ` : '';
+
+                htmlBuffer += `
+                <div id="review-box-${j.jobId}" class="premium-card bg-white p-6 flex flex-col md:flex-row items-center justify-between hover:border-[#cda434] border border-gray-100 rounded-xl transition-colors mb-4 group animate-fade-in shadow-sm relative overflow-hidden">
+                    
+                    ${flaggedBadge}
+
+                    <div class="flex items-center gap-5 w-full md:w-auto mb-6 md:mb-0">
+                        <div class="w-14 h-14 rounded-2xl bg-[#111] text-[#cda434] flex items-center justify-center font-serif font-bold text-2xl shrink-0 shadow-inner">
+                            ${j.tailorName.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                            <h6 class="text-[#cda434] text-[10px] font-bold uppercase tracking-widest mb-1">Commission #${j.jobId}</h6>
+                            <h5 class="font-serif font-bold text-2xl text-[#111] mb-2">${j.tailorName}</h5>
+                            <div class="flex items-center gap-2 text-xs text-gray-500 font-medium">
+                                <span class="bg-gray-100 text-[#111] px-2.5 py-1 rounded-md text-[9px] uppercase tracking-widest font-bold border border-gray-200">${garmentType}</span>
+                                <span>•</span>
+                                <span>${dateStr}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-auto flex flex-col items-start md:items-end border-t md:border-t-0 border-gray-100 pt-4 md:pt-0 mt-2 md:mt-0">
+                        ${isRated ? `
+                            <div class="text-left md:text-right w-full flex flex-row md:flex-col justify-between md:justify-end items-center md:items-end gap-2 md:gap-0">
+                                <div class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Your Rating</div>
+                                <div class="text-[#cda434] text-xl tracking-widest mb-2">${ratingStars}</div>
+                                <button class="text-[10px] font-bold text-[#111] hover:text-[#cda434] uppercase tracking-widest border border-[#111] px-3 py-1 rounded-lg hover:border-[#cda434] transition-all flex items-center gap-2" onclick="loadTailorView(${j.tailorId}, '${j.tailorName}', ${j.jobId})">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                    View Feedback
+                                </button>
+                            </div>
+                        ` : `
+                            <button class="bg-[#111] text-white w-full md:w-auto px-8 py-3.5 rounded-xl text-xs font-bold tracking-widest uppercase shadow-lg hover:bg-[#cda434] hover:-translate-y-1 transition-all flex items-center justify-center gap-2" onclick="openFeedback(${j.jobId}, ${j.tailorId}, '${j.tailorName}')">
+                                Rate Tailor
+                            </button>
+                        `}
+                    </div>
+                </div>`;
+            });
+            list.innerHTML = htmlBuffer;
+        }      
+
+        // --- SUBMIT FEEDBACK ---
+        function openFeedback(jobId, tailorId, name) {
+            showScreen('feedbackModal');
+            document.getElementById('feedbackHeaderTitle').innerHTML = `Rate <span class="text-[#cda434]">${name}</span>`;
+            document.getElementById('fJobId').value = jobId;
+            document.getElementById('fTailorId').value = tailorId;
+        }
+
+        document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // 🚨 CONFIRMATION DIALOG GATE FOR CUSTOMERS
+            if (!confirm("Are you sure you want to submit your review? Once submitted, it will be validated by our system.")) {
+                return; // Stops execution right here if they click 'Cancel'
+            }
+
+            const formData = new FormData();
+            formData.append('jobId', document.getElementById('fJobId').value);
+            formData.append('tailorId', document.getElementById('fTailorId').value);
+            formData.append('customerId', currentUser.id);
+            formData.append('customerName', currentUser.name);
+            formData.append('rating', document.getElementById('fRating').value);
+            formData.append('comment', document.getElementById('fComment').value);
+
+            const photoInput = document.getElementById('reviewPhotos');
+            if (photoInput.files.length > 3) {
+                return alert("Please upload a maximum of 3 photos only.");
+            }
+            for (let i = 0; i < photoInput.files.length; i++) {
+                formData.append('photos[]', photoInput.files[i]);
+            }
+
+            try {
+                const res = await fetch(API_URL + 'submit_feedback', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const rawText = await res.text();
+                const jsonStart = rawText.indexOf('{');
+                const jsonEnd = rawText.lastIndexOf('}');
+                
+                if(jsonStart !== -1 && jsonEnd !== -1) {
+                    const data = JSON.parse(rawText.substring(jsonStart, jsonEnd + 1));
+                    if (data.error) alert(data.error);
+                    else if (data.status === 'Held') alert("⚠️ Review Held for Moderation (AI Flagged).");
+                    else alert("✅ Review Published Successfully!");
+                }
+
+                document.getElementById('feedbackForm').reset();
+                document.getElementById('photoPreviewContainer').innerHTML = '';
+                document.getElementById('photoPreviewContainer').classList.add('hidden');
+                activeCustomerTab = 'history';
+                cachedCustomerData = ""; 
+                setupUI(); 
+            } catch(e) {
+                alert("Upload Error: " + e.message);
+            }
+        });   
+
+        // --- TAILOR VIEW & FILTERING LOGIC ---
+        // UPDATED: Added targetJobId parameter
+        async function loadTailorView(tailorId, tailorName, targetJobId = null) {
+            showScreen('tailorScreen');
+            const title = tailorName === "My Profile" ? "My Atelier" : `${tailorName}'s Atelier`;
+            document.getElementById('profileTitle').innerText = title;
+            document.getElementById('backBtnTailor').style.display = tailorName === "My Profile" ? 'none' : 'block';
+
+            document.getElementById('reviewFilter').value = 'recent';
+
+            // Pass the targetJobId into the fetch function
+            await fetchTailorData(tailorId, targetJobId);
+            
+            // Clear old active polling tracks and loop updates without forcing a scroll re-trigger
+            if(activePoll) clearInterval(activePoll);
+            activePoll = setInterval(() => fetchTailorData(tailorId), 3000);
+        }  
+
+        // UPDATED: Added auto-scrolling logic
+        async function fetchTailorData(tailorId, targetJobId = null) {
+            try {
+                const res = await fetch(API_URL + 'get_tailor_stats&tailorId=' + tailorId);
+                const rawText = await res.text();
+                const jsonStart = rawText.indexOf('{');
+                const jsonEnd = rawText.lastIndexOf('}');
+                
+                if(jsonStart !== -1 && jsonEnd !== -1) {
+                    const data = JSON.parse(rawText.substring(jsonStart, jsonEnd + 1));
+                    const currentHash = JSON.stringify(data);
+                    
+                    // If data hasn't changed and we aren't trying to scroll, do nothing
+                    if (currentTailorViewId === tailorId && cachedTailorData === currentHash && !targetJobId) return;
+                    
+                    currentTailorViewId = tailorId;
+                    cachedTailorData = currentHash;
+
+                    document.getElementById('tAvg').innerText = data.stats.avgRating || "0.0";
+                    document.getElementById('tCount').innerText = data.stats.totalReviews || "0";
+                    
+                    currentTailorReviews = data.reviews || [];
+                    applyReviewFilter(); 
+
+                    renderRatingBreakdown(currentTailorReviews);   
+
+                    // 🎯 TARGET SCROLL & FLASH INTERCEPTOR
+                    if (targetJobId) {
+                        setTimeout(() => {
+                            const targetReview = document.getElementById('tailor-review-box-' + targetJobId);
+                            if (targetReview) {
+                                targetReview.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                
+                                // 🌟 THE FIX: Temporarily strip out the default white background/gray border
+                                targetReview.classList.remove('bg-white', 'border-gray-100');
+                                
+                                // Add the premium gold flashing effect
+                                targetReview.classList.add('bg-[#cda434]/10', 'border-[#cda434]', 'ring-2', 'ring-[#cda434]/20');
+                                
+                                setTimeout(() => {
+                                    // Clean up the gold effect after 2.5 seconds
+                                    targetReview.classList.remove('bg-[#cda434]/10', 'border-[#cda434]', 'ring-2', 'ring-[#cda434]/20');
+                                    
+                                    // 🌟 Restore the default clean layout styling
+                                    targetReview.classList.add('bg-white', 'border-gray-100');
+                                }, 2500);
+                            }
+                        }, 200);
+                    }   
+                }
+            } catch(e) {}
+        }      
+
+        // --- NEW: RATING BREAKDOWN LOGIC ---
+        function renderRatingBreakdown(reviews) {
+            const container = document.getElementById('ratingBreakdown');
+            if (!container) return;
+            
+            const total = reviews.length;
+            const counts = {5: 0, 4: 0, 3: 0, 2: 0, 1: 0};
+            
+            // Count how many of each star rating exists
+            reviews.forEach(r => { counts[r.rating] = (counts[r.rating] || 0) + 1; });
+            
+            let html = '<div class="mt-6 space-y-2.5 border-t border-gray-800 pt-5">';
+            
+            // Loop from 5 down to 1 to build the bars
+            for (let i = 5; i >= 1; i--) {
+                const count = counts[i];
+                // Calculate the percentage to fill the gold bar
+                const percentage = total > 0 ? (count / total) * 100 : 0;
+                
+                html += `
+                <div class="flex items-center text-xs text-gray-400 font-medium group cursor-default">
+                    <span class="w-12 text-left group-hover:text-white transition-colors">${i} Stars</span>
+                    <div class="flex-1 h-2 mx-3 bg-gray-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-[#cda434] rounded-full transition-all duration-1000 ease-out" style="width: ${percentage}%"></div>
+                    </div>
+                    <span class="w-6 text-right group-hover:text-white transition-colors">${count}</span>
+                </div>`;
+            }
+            html += '</div>';
+            
+            container.innerHTML = html;
+        }   
+
+        function applyReviewFilter() {
+            const filter = document.getElementById('reviewFilter').value;
+            let sortedReviews = [...currentTailorReviews]; 
+
+            if (filter === 'highest') {
+                sortedReviews.sort((a, b) => b.rating - a.rating);
+            } else if (filter === 'lowest') {
+                sortedReviews.sort((a, b) => a.rating - b.rating);
+            } else {
+                sortedReviews.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            }
+
+            renderTailorReviewsToScreen(sortedReviews);
+        }
+
+        function renderTailorReviewsToScreen(reviewsToRender) {
+            document.getElementById('tReviews').innerHTML = reviewsToRender.length ? reviewsToRender.map(r => {
+                const isMine = currentUser && Number(r.customerId) === Number(currentUser.id);
+                const badge = isMine ? `<span class="bg-[#cda434]/10 text-[#cda434] text-[9px] font-black px-2 py-0.5 rounded border border-[#cda434]/20 uppercase tracking-widest shadow-sm relative z-10">Your Review</span>` : '';
+
+                const customerInitial = r.customerName.charAt(0).toUpperCase();
+
+                let photoHtml = '';
+                if (r.photos && r.photos.trim() !== '') {
+                    const photoArray = r.photos.split(',');
+                    photoHtml = `<div class="flex flex-wrap gap-3 mt-4 relative z-10">` + 
+                        photoArray.map(photo => `
+                        <div class="relative group/photo cursor-pointer overflow-hidden rounded-xl border border-gray-200 shadow-sm" onclick="openImageModal('feedback_uploads/${photo}')">
+                            <img src="feedback_uploads/${photo}" class="h-20 w-20 md:h-24 md:w-24 object-cover transition-transform duration-500 group-hover/photo:scale-110" alt="Review Photo">
+                            <div class="absolute inset-0 bg-black/0 group-hover/photo:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white opacity-0 group-hover/photo:opacity-100 transition-opacity duration-300 drop-shadow-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                            </div>
+                        </div>`).join('') +
+                    `</div>`;
+                }
+
+                // NEW: Smart Comment Box Logic!
+                let commentHtml = '';
+                // Check if comment exists, is not empty, and is not the word 'null'
+                if (r.comment && r.comment.trim() !== '' && r.comment.trim() !== 'null') {
+                    // Builds a soft cream box with rounded corners and NO quotation marks
+                    commentHtml = `
+                    <div class="bg-[#faf9f6] border border-gray-100 rounded-xl p-4 mt-2 mb-2 shadow-inner">
+                        <p class="text-gray-700 text-sm leading-relaxed">${r.comment}</p>
+                    </div>`;
+                }
+
+                const emptyStars = 5 - r.rating;
+
+                return `
+                <div id="tailor-review-box-${r.jobId}" class="group relative bg-white border border-gray-100 border-l-[4px] border-l-[#cda434] p-6 md:p-8 mb-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(205,164,52,0.08)] hover:-translate-y-1 transition-all duration-500 overflow-hidden">
+                    
+                    <div class="absolute -top-4 right-4 text-[120px] font-serif leading-none text-[#cda434] opacity-[0.03] select-none pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:opacity-[0.05]">"</div>
+
+                    <div class="flex justify-between items-start mb-5 relative z-10">
+                        <div class="flex items-center gap-4">
+                            
+                            <div class="w-12 h-12 rounded-full bg-[#111] flex items-center justify-center text-[#cda434] font-serif font-bold text-xl shadow-inner shrink-0">
+                                ${customerInitial}
+                            </div>
+                            
+                            <div>
+                                <div class="flex items-center gap-2 flex-wrap mb-1">
+                                    <strong class="text-[#111] font-bold text-base tracking-tight">${r.customerName}</strong>
+                                    ${badge}
+                                </div>
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <span class="bg-gray-50 text-gray-500 text-[10px] font-bold px-2 py-0.5 rounded-md border border-gray-200 uppercase tracking-widest shadow-sm">Commission #${r.jobId}</span>
+                                    <span class="text-gray-300 text-xs hidden md:inline">•</span>
+                                    <span class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">${formatRealTime(r.timestamp)}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-col items-end shrink-0 ml-2">
+                            <div class="bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm group-hover:border-[#cda434]/30 transition-colors duration-300">
+                                <span class="text-[#cda434] text-sm tracking-widest">
+                                    ${'★'.repeat(r.rating)}<span class="text-gray-200">${'★'.repeat(emptyStars)}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md:ml-16 relative z-10">
+                        ${commentHtml}
+                        ${photoHtml}
+                    </div>
+                    
+                </div>`;
+            }).join('') : '<div class="py-16 text-center text-gray-400 italic font-serif text-lg bg-white border border-dashed border-gray-200 rounded-2xl">No reviews have been published yet.</div>';
+        }     
+
+        // --- NEW: IMAGE MODAL LOGIC ---
+        function openImageModal(imageSource) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('imageModalContent');
+            
+            // Put the clicked image into the big pop-up
+            modalImg.src = imageSource;
+            
+            // Un-hide the modal container
+            modal.classList.remove('hidden');
+            
+            // A tiny delay to allow the smooth fade-in and zoom animation to play
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalImg.classList.remove('scale-95');
+                modalImg.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('imageModalContent');
+            
+            // Start the fade-out animation
+            modal.classList.add('opacity-0');
+            modalImg.classList.remove('scale-100');
+            modalImg.classList.add('scale-95');
+            
+            // Wait for the animation to finish (300ms) before fully hiding it
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modalImg.src = ''; // clear the image
+            }, 300); 
+        }   
+
+        // --- NEW: SCROLL EVENT FOR TOP BUTTON ---
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('scrollTopBtn');
+            const tailorScreen = document.getElementById('tailorScreen');
+            
+            // Only show the scroll button if we are on the tailor screen AND scrolled down
+            if (btn) {
+                if (!tailorScreen.classList.contains('hidden') && window.scrollY > 200) {
+                    btn.classList.remove('hidden');
+                } else {
+                    btn.classList.add('hidden');
+                }
+            }
+        });
+
+        // --- NEW: PREMIUM DARK SaaS EVENT LOGS ---
+        function renderSystemLogs() {
+            const filter = document.getElementById('logFilter').value;
+            const container = document.getElementById('systemLogsContainer');
+            if (!container) return;
+            
+            let filteredLogs = systemLogs;
+            if (filter !== 'all') {
+                filteredLogs = systemLogs.filter(l => l.action === filter);
+            }
+
+            // Sort logs so the newest is at the top
+            filteredLogs.sort((a, b) => b.timestamp - a.timestamp);
+
+            if (filteredLogs.length === 0) {
+                container.innerHTML = '<div class="p-10 text-center text-gray-500 text-sm font-serif italic">No audit logs match this filter.</div>';
+                return;
+            }
+
+            container.innerHTML = filteredLogs.map(log => {
+                let badgeBg, badgeText, hoverAccent;
+                
+                // Modern Status Badges and Hover Accents
+                if (log.action === 'Submission') {
+                    badgeBg = 'bg-blue-500/10'; 
+                    badgeText = 'text-blue-400'; 
+                    hoverAccent = 'hover:border-l-blue-500';
+                } else if (log.action === 'Approval') {
+                    badgeBg = 'bg-green-500/10'; 
+                    badgeText = 'text-green-400'; 
+                    hoverAccent = 'hover:border-l-green-500';
+                } else if (log.action === 'Rejection') {
+                    badgeBg = 'bg-red-500/10'; 
+                    badgeText = 'text-red-400'; 
+                    hoverAccent = 'hover:border-l-red-500';
+                }
+
+                return `
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-5 p-4 md:p-5 border-b border-gray-800 last:border-0 hover:bg-[#1a1a1a] transition-all border-l-[3px] border-l-transparent ${hoverAccent}">
+                    
+                    <div class="flex items-center gap-4 flex-1">
+                        <div class="${badgeBg} ${badgeText} px-3 py-1.5 rounded-md text-[9px] font-black uppercase tracking-widest border border-white/5 w-24 text-center shrink-0 shadow-sm">
+                            ${log.action}
+                        </div>
+                        
+                        <p class="text-xs md:text-sm text-gray-300 font-medium leading-relaxed">${log.details}</p>
+                    </div>
+
+                    <div class="text-[10px] text-gray-500 font-bold uppercase tracking-widest md:text-right shrink-0 ml-12 md:ml-0">
+                        ${formatRealTime(log.timestamp)}
+                    </div>
+                    
+                </div>`;
+            }).join('');
+        }   
+
+        // --- ADMIN LOGIC ---
+        async function loadAdmin() {
+            showScreen('adminScreen');
+            renderSystemLogs(); 
+            await fetchAdminData();
+            await fetchAllSubmissionsLog(); // Fetch all submissions on load
+            
+            // Loop both updates every 3 seconds
+            activePoll = setInterval(async () => {
+                await fetchAdminData();
+                await fetchAllSubmissionsLog();
+            }, 3000);
+        }   
+
+        async function fetchAdminData() {
+            try {
+                const res = await fetch(API_URL + 'get_admin_flagged');
+                const rawText = await res.text();
+                const jsonStart = rawText.indexOf('[');
+                const jsonEnd = rawText.lastIndexOf(']');
+                
+                if(jsonStart !== -1 && jsonEnd !== -1) {
+                    const reviews = JSON.parse(rawText.substring(jsonStart, jsonEnd + 1));
+                    const currentHash = JSON.stringify(reviews);
+                    if (cachedAdminData === currentHash) return;
+                    cachedAdminData = currentHash;
+
+                    const adminListContainer = document.getElementById('adminList');
+                    adminListContainer.className = "flex flex-col gap-6 max-w-4xl mx-auto";
+
+                    adminListContainer.innerHTML = reviews.length ? reviews.map(r => {
+                        
+                        let photoHtml = '';
+                        if (r.photos && r.photos.trim() !== '' && r.photos.trim() !== 'null') {
+                            const photoArray = r.photos.split(',');
+                            photoHtml = `<div class="flex flex-wrap gap-3 mt-4">` + 
+                                photoArray.map(photo => `
+                                <div class="relative cursor-pointer overflow-hidden rounded-xl border border-gray-200 shadow-sm" onclick="openImageModal('feedback_uploads/${photo}')">
+                                    <img src="feedback_uploads/${photo}" class="h-20 w-20 object-cover hover:scale-105 transition-transform duration-300" alt="Review Photo">
+                                </div>`).join('') +
+                            `</div>`;
+                        }
+
+                        const emptyStars = 5 - r.rating;
+                        const ratingStars = '★'.repeat(r.rating) + '☆'.repeat(emptyStars);
+
+                        return `
+                        <div class="premium-card p-6 md:p-8 border-l-4 border-red-500 flex flex-col md:flex-row justify-between items-start md:items-center shadow-sm bg-white rounded-xl gap-6 animate-fade-in relative">
+                            <div class="flex-1 w-full">
+                                <div class="flex justify-between items-center mb-2">
+                                    <div>
+                                        <h6 class="text-red-500 text-[10px] font-bold uppercase tracking-widest mb-0.5">Flagged Review</h6>
+                                        <strong class="text-[#111] font-bold text-base tracking-tight">${r.customerName}</strong>
+                                        <span class="text-xs text-gray-400 ml-2 font-mono">Commission #${r.jobId}</span>
+                                    </div>
+                                    <div class="text-[#cda434] text-sm tracking-widest">${ratingStars}</div>
+                                </div>
+                                <div class="bg-red-50/40 p-4 rounded-xl text-red-950 text-sm italic border border-red-100 mt-2 leading-relaxed">
+                                    "${r.comment}"
+                                </div>
+                                ${photoHtml}
+                            </div>
+                            
+                            <div class="flex flex-col gap-2 w-full md:w-28 shrink-0 border-t md:border-t-0 border-gray-100 pt-4 md:pt-0 mt-2 md:mt-0 justify-center">
+                                <button class="w-full py-2 bg-white border border-green-600 text-green-700 hover:bg-green-600 hover:text-white rounded-lg text-xs font-bold uppercase tracking-widest transition-colors text-center cursor-pointer" onclick="moderate(${r.id}, 'Approve')">Approve</button>
+                                <button class="w-full py-2 bg-red-600 border border-red-600 text-white hover:bg-red-700 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors shadow-sm text-center cursor-pointer" onclick="moderate(${r.id}, 'Reject')">Reject</button>
+                            </div>
+                        </div>`;
+                    }).join('') : '<div class="premium-card p-8 text-center text-green-600 font-bold uppercase tracking-widest text-sm bg-green-50 border-green-200 rounded-xl w-full">System Clear: No flagged reviews pending.</div>';
+                }
+            } catch(e) {}
+        }        
+
+        // 🔄 NEW FUNCTION: Pulls all submissions from the database to log them globally
+        async function fetchAllSubmissionsLog() {
+            try {
+                const res = await fetch(API_URL + 'get_all_submissions');
+                const txt = await res.text();
+                const submissions = JSON.parse(txt.substring(txt.indexOf('['), txt.lastIndexOf(']') + 1));
+                
+                let updated = false;
+                submissions.forEach(s => {
+                    // Check if this specific commission submission has already been logged
+                    const logExists = systemLogs.some(log => log.action === 'Submission' && log.details.includes(`#${s.jobId}`));
+                    
+                    if (!logExists) {
+                        // Mark if it was auto-approved or caught by the AI
+                        const safetyNote = s.status === 'Held' ? ' (Flagged by AI)' : ' (Auto-Approved)';
+                        
+                        systemLogs.push({
+                            action: 'Submission',
+                            details: `Customer "${s.customerName}" successfully submitted a review for Commission #${s.jobId}${safetyNote}.`,
+                            timestamp: new Date().getTime()
+                        });
+                        updated = true;
+                    }
+                });
+                
+                if (updated) {
+                    localStorage.setItem('systemFeedbackLogs', JSON.stringify(systemLogs));
+                    renderSystemLogs();
+                }
+            } catch(e) {}
+        }   
+
+        async function moderate(id, action) {
+            
+            // 🚨 CRITICAL CONFIRMATION INTERCEPTOR GATEWAY
+            if (!confirm(`Are you sure you want to ${action.toUpperCase()} this flagged review?`)) {
+                return; // Stop execution immediately if admin cancels
+            }
+
+            await fetch(API_URL + 'moderate_review', { 
+                method: 'POST', 
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify({ reviewId: id, action: action }) 
+            });
+
+            const logDetails = action === 'Approve' ? `Admin approved flagged review #${id}.` : `Admin officially rejected flagged review #${id}.`;
+            const logType = action === 'Approve' ? 'Approval' : 'Rejection';
+            
+            systemLogs.push({
+                action: logType,
+                details: logDetails,
+                timestamp: new Date().getTime()
+            });
+
+            localStorage.setItem('systemFeedbackLogs', JSON.stringify(systemLogs));
+
+            renderSystemLogs();
+            cachedAdminData = ""; 
+            fetchAdminData();  
+        }   
+
+        // --- NOTIFICATION LOGIC ---
+        function toggleNotifications() {
+            const drop = document.getElementById('notifDropdown');
+            drop.classList.toggle('active');
+            if (drop.classList.contains('active')) markNotificationsRead();
+        }
+
+        async function fetchNotifications() {
+            if (!currentUser) return;
+            try {
+                const res = await fetch(API_URL + 'get_notifications&userId=' + currentUser.id);
+                const txt = await res.text();
+                const notifs = JSON.parse(txt.substring(txt.indexOf('['), txt.lastIndexOf(']') + 1));
+                
+                if (cachedNotifData === JSON.stringify(notifs)) return;
+                cachedNotifData = JSON.stringify(notifs);
+
+                // 🔔 FIX: Changed n.is_read to match database column n.isRead
+                const unread = notifs.filter(n => Number(n.isRead) === 0).length;
+                const badge = document.getElementById('notifBadge');
+                badge.innerText = unread;
+                badge.classList.toggle('hidden', unread === 0);
+
+                document.getElementById('notifList').innerHTML = notifs.map(n => `
+                    <div class="p-4 border-b border-gray-50 text-xs ${n.isRead == 0 ? 'bg-blue-50/20' : ''}">
+                        <p class="text-[#111] mb-1 font-medium">${n.message}</p>
+                        <span class="text-[9px] text-gray-400 font-bold uppercase">${formatRealTime(n.timestamp)}</span>
+                    </div>
+                `).join('') || '<div class="p-8 text-center text-gray-400 text-xs">No updates yet.</div>';
+            } catch(e) {}
+        }   
+
+        async function markNotificationsRead() {
+            await fetch(API_URL + 'mark_notifs_read', { method: 'POST', body: JSON.stringify({ userId: currentUser.id }) });
+            setTimeout(() => document.getElementById('notifBadge').classList.add('hidden'), 1000);
+        }
+
+        // --- NEW: APP INITIALIZATION LOGIC ---
+        function initApp() {
+            // Check if the user is saved in memory
+            const savedUser = sessionStorage.getItem('smartTailorUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+            }
+            // Load the correct screen
+            setupUI();
+        }
+
+        // Start the app!
+        initApp();
+    </script>
+</body>
+</html>

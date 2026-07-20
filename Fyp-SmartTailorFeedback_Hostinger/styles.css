@@ -1,0 +1,86 @@
+/* public/styles.css - Premium Bespoke Theme */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --st-bg: #faf9f6;
+    --st-black: #111111;
+    --st-gold: #cda434;
+    --st-border: #e2e2e2;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--st-bg);
+    color: var(--st-black);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+.font-serif {
+    font-family: 'Playfair Display', serif;
+}
+
+/* --- ANIMATIONS --- */
+.animate-fade-in {
+    animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- BUTTONS --- */
+.btn-dark {
+    background-color: var(--st-black);
+    color: #ffffff;
+    border: 1px solid var(--st-black);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-dark:hover:not(:disabled) {
+    background-color: #222222;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.3);
+}
+.btn-dark:disabled {
+    background-color: #777777;
+    border-color: #777777;
+    cursor: not-allowed;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--st-black);
+    border: 1px solid var(--st-border);
+    transition: all 0.3s ease;
+}
+.btn-outline:hover {
+    border-color: var(--st-black);
+    background-color: #ffffff;
+}
+
+/* --- FORMS & CARDS --- */
+.input-field {
+    border: 1px solid var(--st-border);
+    padding: 0.875rem 1.25rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    outline: none;
+    transition: all 0.2s ease;
+    background: #ffffff;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+}
+.input-field:focus {
+    border-color: var(--st-gold);
+    box-shadow: 0 0 0 3px rgba(205, 164, 52, 0.15);
+}
+
+.hover-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.hover-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px -5px rgba(0,0,0,0.08); border-color: #cda434; }
+
+.premium-card {
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    border-radius: 1rem;
+}
