@@ -36,7 +36,7 @@ SmartTailor-Feedback-System/
 ├── database/        # MySQL schema and initial setup SQL files
 └── index.php        # System entry point
 
-⚙️ How to Set Up Locally
+## ⚙️ How to Set Up Locally
 1. **Clone the repository:**
 ```bash
 git clone https://github.com/Yg-yi/FYP-SmartTailorFeedbackSystem.git
